@@ -26,6 +26,51 @@ const currentActivities = [
   "Turning ideas into working projects"
 ];
 
+
+
+// -----------------------------------------------------
+// BEYOND THE BLUEPRINT
+// -----------------------------------------------------
+
+function initBlueprint() {
+  const blueprintTrigger = document.querySelector("#blueprintTrigger");
+  const blueprintMessage = document.querySelector("#blueprintMessage");
+
+  if (!blueprintTrigger || !blueprintMessage) {
+    console.warn("Beyond the Blueprint elements could not be found.");
+    return;
+  }
+
+  let blueprintTimer;
+
+  function showBlueprintMessage() {
+    clearTimeout(blueprintTimer);
+
+    blueprintMessage.classList.add("is-visible");
+    blueprintMessage.setAttribute("aria-hidden", "false");
+
+    console.log("BLUEPRINT POPUP ACTIVATED!");
+console.log(blueprintMessage);
+
+    blueprintTimer = setTimeout(() => {
+      blueprintMessage.classList.remove("is-visible");
+      blueprintMessage.setAttribute("aria-hidden", "true");
+    }, 5000);
+  }
+
+  blueprintTrigger.addEventListener("mouseenter", showBlueprintMessage);
+  blueprintTrigger.addEventListener("focus", showBlueprintMessage);
+  blueprintTrigger.addEventListener("click", showBlueprintMessage);
+
+  blueprintTrigger.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+      clearTimeout(blueprintTimer);
+      blueprintMessage.classList.remove("is-visible");
+      blueprintMessage.setAttribute("aria-hidden", "true");
+    }
+  });
+}
+
 // -----------------------------------------------------
 // PROJECTS
 // -----------------------------------------------------
@@ -822,7 +867,10 @@ function configureArcade() {
 // STARTUP
 // -----------------------------------------------------
 
+
 function init() {
+  initBlueprint();
+
   renderActivities();
   renderProjects();
   renderGoals();

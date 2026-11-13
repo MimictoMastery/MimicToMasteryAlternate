@@ -78,6 +78,102 @@ input:focus-visible {
   background: #6344c7;
 }
 
+/* BEYOND THE BLUEPRINT */
+
+.blueprint-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.blueprint-trigger {
+  position: relative;
+  border: none;
+  background: transparent;
+  padding: 8px 0;
+  color: #39dfff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+
+/* Green sweep from left to right */
+
+.blueprint-trigger span {
+  position: relative;
+  display: inline-block;
+}
+
+.blueprint-trigger span::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  color: #39ff88;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.7s ease;
+  white-space: nowrap;
+}
+
+.blueprint-trigger:hover span::after,
+.blueprint-trigger:focus-visible span::after {
+  clip-path: inset(0 0 0 0);
+}
+
+/* Inspirational popup */
+
+.blueprint-message {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 0;
+  z-index: 20;
+
+  width: min(320px, 85vw);
+  padding: 18px 20px;
+
+  background: #08122c;
+  border: 1px solid #39dfff;
+  border-radius: 12px;
+
+  color: #d7efff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  letter-spacing: 0.2px;
+
+  box-shadow:
+    0 0 15px rgba(57, 223, 255, 0.12),
+    0 8px 25px rgba(0, 0, 0, 0.35);
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease,
+    visibility 0.5s ease;
+
+  pointer-events: none;
+}
+/* this is for the Beyound the Blueprint */
+.blueprint-message.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.blueprint-trigger:focus-visible {
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blueprint-trigger span::after,
+  .blueprint-message {
+    transition: none;
+  }
+}
+
 /* ambient(isn't this such a fun word!!) lighting */
 
 .ambient-glow {
