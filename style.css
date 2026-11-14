@@ -1280,3 +1280,37 @@ p {
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* MIMIC TO MASTERY — MANIFESTO */
+
+.mastery-manifesto {
+  margin-top: 22px;
+  padding: 18px 20px;
+  border-left: 2px solid #39ff88;
+  background: rgba(57, 255, 136, 0.04);
+  border-radius: 0 12px 12px 0;
+}
+
+.mastery-manifesto p {
+  margin: 8px 0;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  line-height: 1.6;
+  transition: text-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.mastery-manifesto p:first-child {
+  color: #39ff88;
+  text-shadow: 0 0 10px rgba(57, 255, 136, 0.25);
+}
+
+.mastery-manifesto p:last-child {
+  color: #39dfff;
+  text-shadow: 0 0 10px rgba(57, 223, 255, 0.25);
+}
+
+.mastery-manifesto p:hover {
+  transform: translateX(6px);
+  text-shadow: 0 0 15px currentColor;
+}
