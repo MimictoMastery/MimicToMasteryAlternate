@@ -867,10 +867,7 @@ function configureArcade() {
 // STARTUP
 // -----------------------------------------------------
 
-
 function init() {
-  initBlueprint();
-
   renderActivities();
   renderProjects();
   renderGoals();
