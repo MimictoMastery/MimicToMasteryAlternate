@@ -1,104 +1,118 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#050817">
-  <meta name="description" content="Mimic to Mastery — learning to code
-  and building something new one commit at a time.">
+  <meta name="description" content="Heather Lawson — Full-Stack Developer building responsive web applications with JavaScript, Node.js, and modern web technologies.">
 
-  <title>Mimic to Mastery</title>
+  <title>Heather Lawson | Full-Stack Developer</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=VT323&family=JetBrains+Mono:wght@400;600&family=Moon+Dance&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="./style.css">
-  <script src="./script.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=VT323&family=JetBrains+Mono:wght@400;500;600&family=Moon+Dance&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="./style.css">
+  <script src="./script.js" defer></script>
 </head>
 
 <body>
-  <div class="ambient-glow background-cyan"></div>
-  <div class="ambient-glow background-purple"></div>
+  <div class="ambient-glow background-cyan" aria-hidden="true"></div>
+  <div class="ambient-glow background-purple" aria-hidden="true"></div>
 
-  <!---Below is the navigation bar. I may make changes by removing the Arcade optiio
-  I am trying to decide it if needs to be hosted somehwere?? It has a back end so I 
-  need to evalute where I want it to go. -->
+  <div class="site-shell">
 
-  <div class="mimictomastery">
-    <header class="top glass">
+    <header class="site-header glass-panel">
       <a href="#home" class="logo">mimic<span>to</span>mastery</a>
 
-      <nav class="top-nav" aria-label="Main navigation">
+      <nav class="primary-navigation" aria-label="Main navigation">
         <a href="#projects">Projects</a>
+        <a href="#skills">Tech Stack</a>
         <a href="#snippets">Code Lab</a>
-        <a href="#arcade">Arcade</a>
-        <a href="#blog">Blog</a>
+        <a href="#blog">Journal</a>
+        <a href="#contact">Contact</a>
       </nav>
 
-      <span class="badge"><span class="status-dot"></span> ONLINE</span>
+      <span class="availability-badge">
+        <span class="status-dot"></span>
+        ONLINE
+      </span>
     </header>
 
-    <!-- FRONT PAGE: starts solid, fades into the background as you scroll. However, later 
-     after I have time I want to make it start solid but fade, to where
-     it is still visible-ish-->
-     
-    <section id="home" class="intro" aria-label="Welcome">
-      <div class="hero">
-        
+    <section id="home" class="intro-section" aria-label="Introduction">
+      <div class="intro-content">
 
-<div class="blueprint-wrap">
+        <div class="blueprint-wrap">
+          <button
+            class="blueprint-trigger"
+            id="blueprintTrigger"
+            type="button"
+            aria-controls="blueprintMessage"
+            aria-expanded="false"
+          >
+            <span class="blueprint-star" aria-hidden="true">✦</span>
+            BEYOND THE BLUEPRINT
+          </button>
 
-  <button
-    class="blueprint-trigger"
-    id="blueprintTrigger"
-    type="button"
-  >
-    <span data-text="BEYOND THE BLUEPRINT">
-      BEYOND THE BLUEPRINT
-    </span>
-  </button>
-
-  <div
-    class="blueprint-message"
-    id="blueprintMessage"
-    role="status"
-    aria-hidden="true"
-  >
-    You aren't limited by the plans someone else made for you,
-    the path you started on, or even the expectations you once
-    had for yourself.
-  </div>
-
-</div>
-
-
-
-
-        <h1>Mimic to <span class="gradient-text">Mastery</span></h1>
-
-        <p class="toomuch">
-          If you have ever simultaneously felt like you are too much
-          and not enough, stay a while. You belong here.
-        </p>
-
-        <div class="btns">
-          <a class="btn btn-primary" href="#projects">Explore my projects ↗</a>
-          <a class="btn" href="https://github.com/MimictoMastery"
-             target="_blank" rel="noopener noreferrer">View GitHub ↗</a>
+          <div
+            class="blueprint-message"
+            id="blueprintMessage"
+            role="status"
+            aria-hidden="true"
+          >
+            You aren't limited by the plans someone else made for you,
+            the path you started on, or even the expectations you once
+            had for yourself.
+          </div>
         </div>
 
-        <div class="hero-terminal">
-          <p class="sr-only">Mimic to Mastery: learning out loud, building something meaningful.</p>
+        <p class="intro-overline">HELLO, WORLD. I'M</p>
 
-          <div class="terminal-bar" aria-hidden="true">
+        <h1>Heather <span class="gradient-text">Lawson</span></h1>
+
+        <p class="intro-role-line">
+          Full-stack Developer · JavaScript · Node.js · Responsive Web Design
+        </p>
+
+        <p class="intro-summary">
+          Building responsive web applications with JavaScript, Node.js,
+          and a growing toolkit of front-end and back-end technologies.
+        </p>
+
+        <div class="intro-actions">
+          <a class="action-button action-button--primary" href="#projects">
+            Explore selected projects ↗
+          </a>
+
+          <a
+            class="action-button"
+            href="https://github.com/MimictoMastery"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View my GitHub ↗
+          </a>
+
+          <a
+            class="action-button"
+            href="./Heather-Lawson-Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View my résumé ↗
+          </a>
+        </div>
+
+        <div class="developer-terminal">
+          <div class="terminal-window-bar">
             <span>MINGW64:/c/Users/mimic</span>
-            <span>—&nbsp;&nbsp;&#9633;&nbsp;&nbsp;&#10005;</span>
+            <span aria-hidden="true">— □ ×</span>
           </div>
 
-          <div class="terminal-body" aria-hidden="true">
+          <div class="terminal-window-content" aria-live="off">
             <div id="terminal-output"></div>
 
             <div id="terminal-live" hidden>
@@ -107,243 +121,275 @@
                 <span class="gb-shell">MINGW64</span>
                 <span class="gb-path">~</span>
               </div>
+
               <div class="gb-line">
                 <span class="gb-dollar">$</span>
-                <span id="terminal-message"></span><span class="cursor"></span>
+                <span id="terminal-message"></span>
+                <span class="cursor"></span>
               </div>
             </div>
           </div>
         </div>
+
       </div>
 
-      <a class="scroll-hint" href="#now">Scroll to explore ↓</a>
+      <a class="intro-scroll-hint" href="#projects">
+        Explore the portfolio ↓
+      </a>
     </section>
 
     <main id="main" class="bento">
 
-      <!-- CURRENTLY LEARNING change to this Chapter -->
-      <section class="tile glass span-2" id="now">
-        <div class="lbl">01 / RIGHT NOW</div>
-        <h2 class="section-title">Who are you???</h2>
-        <p>Well, that's a good question. Honestly, I'm not sure I've completely defined that yet.
-I'm a 48-year-old wife and mother of four amazing, amazing kids. I love dogs, the warmth of the sun against my skin, 
-the salty wind off the ocean, and laughter. I feel intensely. I daydream. I write short stories and poetry. I love
-writting. I am a writer. <br>
-I'm too loud without even realizing it. I talk too fast, and I get bored when others talk too slowly. 
-I love everything that glows, and I like glitter… a lot. I love to read, especially fairy tales and fantasy.
-I am too mischeivous sometimes, people say, "You should be serious." I'm so sorry I think, I cant help it 
-if you dont have a personality. Take happiness whe you can get it... becouse this world ...
-it provides too much saddness and disaapointments. </br>
+      <!-- Selected Projects -->
+      <section class="bento-card glass-panel bento-card--full" id="projects">
+        <div class="section-eyebrow">01 / SELECTED WORK</div>
+        <h2 class="content-section-title">Projects & Builds</h2>
 
-<br>I love solving problems and puzzles. I get bored easily. I want to feel strong, happy, and valued.
-I want to be perfect, but I'm not. Attention to detail is almost an obsession. Failure hits hard. 
-Possibilities are exciting, especially when they involve learning skills that can be stacked, built upon, and turned into something more. 
-It feels like magic. </br>
+        <p class="muted">
+          Practical projects, experiments, and ideas brought to life through code.
+        </p>
 
-<br>I usually joke and tell people, “I haven't decided what I want to be when I grow up yet.”</br>
-
-<br>I have ADHD. I was diagnosed two years ago, and suddenly, so much of my life made sense. 
-I finished college at 43, earning my bachelor's degree. At 45, I finally found the courage to pursue something I had longed to do. 
-I joined a cohort at Code:You and began learning front-end development.</br>
-
-<br>I felt alive.
-The endless problems were exhilarating. The different ways to reach the same solution were fascinating. 
-And learning to solve problems with variables that once felt like the enemy? Empowering. 
-There is something extraordinary about realizing that the things you once struggled with 
-can become the very tools you use to build something new. That there isn't always one right answer. 
-That you can experiment, break things, try again, and discover possibilities you hadn't even imagined.</br>
-
-<br>Maybe I haven't decided what I want to be when I grow up because I'm still discovering all the things I can become. </br>
-
-And honestly? I think that's a pretty wonderful place to be.</p>
-       
- <ul id="now-list" class="activity-list"></ul>
+        <div id="selected-projects-list" class="project-grid"></div>
       </section>
 
-      <!-- DAILY QUOTE, this is something that is jsut who I am . -->
-      <section class="tile glass span-2">
-        <div class="lbl">02 / DAILY DOPAMINE</div>
-        <div class="quote-mark">“</div>
-        <blockquote id="daily-quote">Every small step is progress.</blockquote>
-        <p id="quote-author" class="quote-author">— Mimic to Mastery</p>
-        <button class="text-button" id="new-quote-button" type="button">
-          Another dose ↻
-        </button>
-      </section>
-     
-<!-- Who is Mimic to Mastery -->
-<section class="tile glass span-2">
-  <div class="lbl">03 / This Chapter</div>
-  <h2 class="section-title">Mimic to Mastery</h2>
+      <!-- Tech Stack -->
+      <section class="bento-card glass-panel bento-card--full" id="skills">
+        <div class="section-eyebrow">02 / THE TOOLKIT</div>
+        <h2 class="content-section-title">Tech Stack</h2>
 
-  <p>
-    Mimic to Mastery isn't really about copying someone else.
+        <p class="muted">
+          Languages, frameworks, and tools I use to build and improve projects.
+        </p>
 
-    <br><br>
-
-    It's about recognizing that you can learn almost anything by observing,
-    experimenting, failing, adapting, and eventually making it your own.
-  </p>
-
-  <div class="mastery-manifesto">
-    <p>You begin by imitating the possibilities.</p>
-    <p>You end by creating possibilities nobody showed you.</p>
-  </div>
-</section>
-
-
-      <!-- PROJECTS -->
-      <section class="tile glass span-3" id="projects">
-        <div class="lbl">04 / Become what you once had to imitate.</div>
-        <h2 class="section-title">Projects I am activily Working On</h2>
-        <div id="projects-list" class="stack-list"></div>
+        <div id="tech-stack-list" class="tech-stack-list"></div>
       </section>
 
-      <!-- GOALS -->
-      <section class="tile glass span-3" id="goals">
-        <div class="lbl">05 / SMALL STEPS, BIG DREAMS</div>
-        <h2 class="section-title">Life goals</h2>
+      <!-- About Me -->
+      <section class="bento-card glass-panel bento-card--half" id="about">
+        <div class="section-eyebrow">03 / BEHIND THE CODE</div>
+        <h2 class="content-section-title">A Little About Me</h2>
 
-        <div class="goal-overview">
-          <div class="ring" id="goal-ring" role="img"
-               aria-label="0 percent of goals completed">
-            <div class="ring-inner">
-              <span id="goal-percent">0%</span>
-            </div>
+        <p>
+          I'm a developer, writer, and lifelong learner with a background
+          in education and storytelling. I enjoy solving problems, exploring
+          how things work, and turning ideas into something people can use.
+        </p>
+
+        <p>
+          My path into technology wasn't a straight line. It brought together
+          years of writing, teaching, creativity, and a curiosity about how
+          things are built. Now I'm putting those skills to work through
+          front-end and back-end development.
+        </p>
+
+        <p class="about-signature">
+          Rooted in Appalachia. Always building toward what's next.
+        </p>
+
+        <div class="professional-strengths">
+          <h3>Beyond the Code</h3>
+
+          <p>
+            I bring a background in writing, education, and storytelling
+            to the way I approach development.
+          </p>
+
+          <div class="strength-tags">
+            <span>Creative Problem-Solving</span>
+            <span>Technical Writing</span>
+            <span>Communication</span>
+            <span>Teaching & Mentoring</span>
+            <span>Attention to Detail</span>
+            <span>Adaptability</span>
           </div>
-          <p id="goal-summary" aria-live="polite">0 of 4 goals complete.</p>
         </div>
-
-        <div id="goals-list" class="goals-list"></div>
       </section>
 
-      <!-- LESSONS -->
-      <section class="tile glass span-3">
-        <div class="lbl">06 / KNOWLEDGE UNLOCKED</div>
-        <h2 class="section-title">Today I learned</h2>
-        <div id="lessons-list" class="stack-list"></div>
+      <!-- Learning Philosophy -->
+      <section class="bento-card glass-panel bento-card--half">
+        <div class="section-eyebrow">04 / THE IDEA BEHIND THE NAME</div>
+        <h2 class="content-section-title">Mimic to Mastery</h2>
+
+        <p>
+          Learning often begins with observation. We study how something
+          works, experiment with it, make mistakes, and eventually develop
+          our own way of doing things.
+        </p>
+
+        <div class="mastery-manifesto">
+          <p>Start by learning what is possible.</p>
+          <p>Keep going until you can create something of your own.</p>
+        </div>
       </section>
 
-      <!-- CONNECT -->
-      <section class="tile glass span-3">
-        <div class="lbl">07 / FIND ME ONLINE</div>
-        <h2 class="section-title">Let's connect</h2>
-        <p>Hiring, collaborating, or learning alongside me? Say hello.</p>
-        <div id="social-links" class="social-links"></div>
-      </section>
+      <!-- Code Lab -->
+      <section class="bento-card glass-panel bento-card--full" id="snippets">
+        <div class="section-eyebrow">05 / CODE EXPERIMENTS</div>
 
-      <!-- ROTATING CODE SNIPPETS -->
-      <section class="tile glass span-6" id="snippets">
-        <div class="lbl">08 / THE CODE LAB</div>
-        <div class="section-heading-row">
+        <div class="section-heading-layout">
           <div>
-            <h2 class="section-title">A little code magic</h2>
+            <h2 class="content-section-title">Code Lab</h2>
             <p class="muted">
-              One small snippet. One new thing to understand.
+              Small examples, useful concepts, and a closer look at the code.
             </p>
           </div>
-          <span class="live-tag"><span class="status-dot"></span> PRACTICE MODE</span>
+
+          <span class="activity-status-tag">
+            <span class="status-dot"></span>
+            PRACTICE MODE
+          </span>
         </div>
 
-        <div class="snippet-card">
-          <div class="snippet-topbar">
+        <div class="code-example-card">
+          <div class="code-example-toolbar">
             <div class="window-dots" aria-hidden="true">
-              <span></span><span></span><span></span>
+              <span></span>
+              <span></span>
+              <span></span>
             </div>
-            <span id="snippet-language" class="snippet-language">JavaScript</span>
-            <span id="snippet-counter" class="snippet-counter">01 / 08</span>
+
+            <span id="code-language-label" class="code-language-label">
+              JavaScript
+            </span>
+
+            <span id="code-example-counter" class="code-example-counter">
+              01 / 10
+            </span>
           </div>
 
-          <div class="snippet-content">
-            <h3 id="snippet-title">Your next coding lesson</h3>
-            <p id="snippet-description" class="muted"></p>
+          <div class="code-example-content">
+            <h3 id="code-example-title">Your next coding lesson</h3>
 
-            <pre class="code-window"><code id="snippet-code"></code></pre>
+            <p id="code-example-summary" class="muted"></p>
 
-            <div class="snippet-explanation">
-              <span class="explanation-icon">✦</span>
-              <p id="snippet-explanation"></p>
+            <pre class="code-window"><code id="code-example-source"></code></pre>
+
+            <div class="code-explanation">
+              <span class="explanation-icon" aria-hidden="true">✦</span>
+              <p id="code-explanation"></p>
             </div>
           </div>
 
-          <div class="snippet-actions">
-            <button class="btn btn-primary" id="next-snippet-button"
-                    type="button">Next snippet →</button>
-            <button class="btn" id="copy-snippet-button"
-                    type="button">Copy code</button>
+          <div class="code-example-actions">
+            <button
+              class="action-button action-button--primary"
+              id="next-code-example-button"
+              type="button"
+            >
+              Next snippet →
+            </button>
+
+            <button
+              class="action-button"
+              id="copy-code-example-button"
+              type="button"
+            >
+              Copy code
+            </button>
           </div>
-          <p id="snippet-feedback" class="feedback" aria-live="polite"></p>
+
+          <p
+            id="code-example-feedback"
+            class="interaction-feedback"
+            aria-live="polite"
+          ></p>
         </div>
       </section>
 
-      <!-- CODE QUEST ARCADE -->
-      <section class="tile arcade-tile glass span-6" id="arcade">
-        <div class="arcade-grid" aria-hidden="true"></div>
+      <!-- Field Journal -->
+      <section class="bento-card glass-panel bento-card--full" id="blog">
+        <div class="section-eyebrow">06 / NOTES FROM THE JOURNEY</div>
 
-        <div class="arcade-content">
-          <div class="lbl">09 / BONUS LEVEL UNLOCKED?</div>
-          <div class="arcade-title-row">
-            <div>
-              <p class="arcade-kicker">INSERT COIN TO CONTINUE</p>
-              <h2 class="arcade-title">CODE QUEST <span>ARCADE</span></h2>
-            </div>
-            <div class="pixel-icon" aria-hidden="true">★</div>
+        <div class="journal-heading">
+          <div class="journal-universe" aria-hidden="true">
+            <span class="journal-planet"></span>
+            <span class="journal-orbit"></span>
+            <span class="journal-star">✦</span>
           </div>
 
-          <p class="arcade-description">
-            Where practice becomes play. Enter the arcade, solve coding
-            challenges, earn XP, and level up your developer skills.
-          </p>
-
-          <div class="arcade-stats">
-            <div class="arcade-stat">
-              <span class="stat-number">01</span>
-              <span class="stat-label">STARTING LEVEL</span>
-            </div>
-            <div class="arcade-stat">
-              <span class="stat-number">∞</span>
-              <span class="stat-label">ROOM TO GROW</span>
-            </div>
-            <div class="arcade-stat">
-              <span class="stat-number">XP</span>
-              <span class="stat-label">EARNED BY LEARNING</span>
-            </div>
+          <div>
+            <h2 class="content-section-title">The Field Journal</h2>
+            <p class="muted">
+              Technical discoveries, project notes, creative thinking,
+              and lessons from the process.
+            </p>
           </div>
-
-          <a id="arcade-launch" class="btn btn-arcade"
-             href="./code-quest-arcade/index.html">
-            ▶ ENTER THE ARCADE
-          </a>
-
-          <p id="arcade-note" class="muted arcade-note">
-            Connect your Code Quest Arcade game using the link in script.js.
-          </p>
         </div>
-      </section>
 
-      <!-- BLOG -->
-      <section class="tile glass span-6" id="blog">
-        <div class="lbl">10 / NOTES FROM THE JOURNEY</div>
-        <h2 class="section-title">The blog</h2>
-        <p class="muted">Lessons, stories, setbacks, and little victories.</p>
-        <div id="posts-list" class="post-grid"></div>
+        <div id="journal-post-list" class="journal-post-grid"></div>
 
-        <article id="blog-reader" class="blog-reader hidden"
-                 aria-label="Blog post" aria-live="polite">
-          <button class="btn" id="back-button" type="button">← Back to posts</button>
-          <p id="reader-meta" class="meta"></p>
-          <h3 id="reader-title"></h3>
-          <div id="reader-body"></div>
+        <article
+          id="journal-reader"
+          class="journal-reader is-hidden"
+          aria-label="Journal entry"
+          aria-live="polite"
+        >
+          <button
+            class="action-button"
+            id="journal-back-button"
+            type="button"
+          >
+            ← Back to entries
+          </button>
+
+          <p id="journal-reader-meta" class="post-metadata"></p>
+          <h3 id="journal-reader-title"></h3>
+          <div id="journal-reader-body"></div>
         </article>
+      </section>
+
+      <!-- Education -->
+      <section class="bento-card glass-panel bento-card--half" id="credentials">
+        <div class="section-eyebrow">07 / EDUCATION & TRAINING</div>
+        <h2 class="content-section-title">Education & Credentials</h2>
+
+        <div class="credential-item">
+          <span class="credential-icon" aria-hidden="true">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </span>
+
+          <div>
+            <h3>Bachelor of General Studies</h3>
+            <p>Union Commonwealth University</p>
+            <p class="muted">Formerly Union College · Barbourville, Kentucky</p>
+            <span class="credential-date">Graduated August 2025</span>
+          </div>
+        </div>
+
+        <div class="credential-item">
+          <span class="credential-icon" aria-hidden="true">
+            <i class="fa-solid fa-code"></i>
+          </span>
+
+          <div>
+            <h3>Web Development</h3>
+            <p>Code:You · Web Development Pathway</p>
+            <p class="muted">Front-end and back-end development training</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section class="bento-card glass-panel bento-card--half" id="contact">
+        <div class="section-eyebrow">08 / OPEN CHANNEL</div>
+        <h2 class="content-section-title">Let's Connect</h2>
+
+        <p>
+          Interested in my work, have a project in mind, or want to talk
+          about a developer opportunity? I'd love to hear from you.
+        </p>
+
+        <div id="social-link-list" class="social-link-list"></div>
       </section>
 
     </main>
 
     <footer class="site-footer">
-      <p>Built with curiosity, HTML, CSS & JavaScript.</p>
-      <p>Rooted in Appalachia. Growing one commit at a time. © 2026</p>
+      <p>Designed with curiosity. Built with HTML, CSS, and JavaScript.</p>
+      <p>Rooted in Appalachia. Building one project at a time. © 2026</p>
       <a href="#home">Back to the top ↑</a>
     </footer>
+
   </div>
 </body>
 </html>

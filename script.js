@@ -1,31 +1,32 @@
+
 // =====================================================
 // MIMIC TO MASTERY
-// Portfolio, Code Lab, Goals, Blog, and Arcade
+// The JavaScript that brings the portfolio to life.
 // =====================================================
 
 const SITE_CONFIG = {
   github: "https://github.com/MimictoMastery",
-
-  // Change this to the real URL of your Code Quest Arcade.
-  // This default expects a game at:
-  // code-quest-arcade/index.html
-  arcade: "./code-quest-arcade/index.html",
-
-  // Optional: your actual YouTube channel URL.
-  youtube: "https://www.youtube.com/"
+  arcade: "./code-quest-arcade/index.html"
 };
 
+
 // -----------------------------------------------------
-// CURRENT ACTIVITIES
+// A SMALL HELPER FOR CREATING PAGE ELEMENTS
 // -----------------------------------------------------
 
-const currentActivities = [
-  "Learning JavaScript",
-  "Building my portfolio",
-  "Practicing Git and GitHub",
-  "Turning ideas into working projects"
-];
+function createElement(tagName, className = "", text) {
+  const element = document.createElement(tagName);
 
+  if (className) {
+    element.className = className;
+  }
+
+  if (text !== undefined) {
+    element.textContent = text;
+  }
+
+  return element;
+}
 
 
 // -----------------------------------------------------
@@ -33,388 +34,179 @@ const currentActivities = [
 // -----------------------------------------------------
 
 function initBlueprint() {
-  const blueprintTrigger = document.querySelector("#blueprintTrigger");
-  const blueprintMessage = document.querySelector("#blueprintMessage");
+  const trigger = document.getElementById("blueprintTrigger");
+  const message = document.getElementById("blueprintMessage");
 
-  if (!blueprintTrigger || !blueprintMessage) {
-    console.warn("Beyond the Blueprint elements could not be found.");
-    return;
+  if (!trigger || !message) return;
+
+  const label = trigger.querySelector("span");
+  if (label) {
+    label.setAttribute("data-text", "BEYOND THE BLUEPRINT");
   }
 
   let blueprintTimer;
 
-  function showBlueprintMessage() {
+  function showMessage() {
     clearTimeout(blueprintTimer);
 
-    blueprintMessage.classList.add("is-visible");
-    blueprintMessage.setAttribute("aria-hidden", "false");
+    message.classList.add("is-visible");
+    message.setAttribute("aria-hidden", "false");
+    trigger.setAttribute("aria-expanded", "true");
 
-    console.log("BLUEPRINT POPUP ACTIVATED!");
-console.log(blueprintMessage);
-
-    blueprintTimer = setTimeout(() => {
-      blueprintMessage.classList.remove("is-visible");
-      blueprintMessage.setAttribute("aria-hidden", "true");
-    }, 5000);
+    blueprintTimer = setTimeout(hideMessage, 10000);
   }
 
-  blueprintTrigger.addEventListener("mouseenter", showBlueprintMessage);
-  blueprintTrigger.addEventListener("focus", showBlueprintMessage);
-  blueprintTrigger.addEventListener("click", showBlueprintMessage);
+  function hideMessage() {
+    clearTimeout(blueprintTimer);
 
-  blueprintTrigger.addEventListener("keydown", event => {
+    message.classList.remove("is-visible");
+    message.setAttribute("aria-hidden", "true");
+    trigger.setAttribute("aria-expanded", "false");
+  }
+
+  trigger.addEventListener("mouseenter", showMessage);
+  trigger.addEventListener("focus", showMessage);
+  trigger.addEventListener("click", showMessage);
+
+  trigger.addEventListener("keydown", event => {
     if (event.key === "Escape") {
-      clearTimeout(blueprintTimer);
-      blueprintMessage.classList.remove("is-visible");
-      blueprintMessage.setAttribute("aria-hidden", "true");
+      hideMessage();
     }
   });
 }
 
+
 // -----------------------------------------------------
-// PROJECTS
+// SELECTED PROJECTS
 // -----------------------------------------------------
 
 const projects = [
   {
     title: "Code Quest Arcade",
-    description: "A retro-inspired coding challenge game.",
-    status: "In progress",
-    technology: "JavaScript, Express, SQLite"
+    description:
+      "A retro-inspired JavaScript trivia game. Players answer coding questions, earn points, and compete for a place on the high-score list.",
+    status: "Interactive Full-Stack Project",
+    technology: "JavaScript · Node.js · Express · SQLite"
   },
   {
     title: "Mimic to Mastery",
-    description: "My personal coding and storytelling website.",
-    status: "Building",
-    technology: "HTML, CSS, JavaScript"
+    description:
+      "A responsive developer portfolio bringing together selected projects, technical experiments, and a personal development journal.",
+    status: "Portfolio Project",
+    technology: "HTML · CSS · JavaScript"
   },
   {
     title: "ADHD Flip Cards",
-    description: "Interactive cards for learning about ADHD traits.",
-    status: "Practice project",
-    technology: "HTML, CSS, JavaScript"
+    description:
+      "An interactive card-based learning project designed to present information in smaller, easier-to-explore pieces.",
+    status: "Learning Project",
+    technology: "HTML · CSS · JavaScript"
   }
 ];
 
-// -----------------------------------------------------
-// GOALS
-// -----------------------------------------------------
+function renderProjects() {
+  const projectList = document.getElementById("selected-projects-list");
 
-const defaultGoals = [
-  { text: "Finish my portfolio website", completed: false },
-  { text: "Build stronger JavaScript skills", completed: false },
-  { text: "Publish projects on GitHub", completed: false },
-  { text: "Land my first developer job", completed: false }
-];
+  if (!projectList) return;
 
-let goals = loadGoals();
+  projectList.replaceChildren();
 
-function loadGoals() {
-  try {
-    const saved = localStorage.getItem("mtm-goals");
+  projects.forEach(project => {
+    const card = createElement("article", "project-card");
 
-    if (saved) {
-      const parsed = JSON.parse(saved);
+    const title = createElement("h3", "", project.title);
+    const description = createElement("p", "", project.description);
+    const status = createElement("span", "project-status", project.status);
+    const technologies = createElement("div", "project-technologies");
 
-      if (
-        Array.isArray(parsed) &&
-        parsed.length === defaultGoals.length &&
-        parsed.every(goal =>
-          goal &&
-          typeof goal.text === "string" &&
-          typeof goal.completed === "boolean"
-        )
-      ) {
-        return parsed;
-      }
-    }
-  } catch (error) {
-    console.warn("Goals could not be loaded:", error);
-  }
+    // Turn the technology list into individual labels.
+    project.technology.split(" · ").forEach(item => {
+      technologies.appendChild(
+        createElement("span", "technology-tag", item)
+      );
+    });
 
-  return defaultGoals.map(goal => ({ ...goal }));
+    card.append(title, description, status, technologies);
+    projectList.appendChild(card);
+  });
 }
 
-function saveGoals() {
-  try {
-    localStorage.setItem("mtm-goals", JSON.stringify(goals));
-  } catch (error) {
-    console.warn("Goals could not be saved:", error);
-  }
-}
 
 // -----------------------------------------------------
-// LESSONS
+// TECH STACK
 // -----------------------------------------------------
 
-const lessons = [
+const technologies = [
   {
-    topic: "HTML",
-    takeaway: "HTML gives a webpage its structure."
+    name: "HTML5",
+    category: "Structure",
+    description: "Semantic HTML and accessible page structure."
   },
   {
-    topic: "CSS",
-    takeaway: "CSS controls how a webpage looks."
+    name: "CSS3",
+    category: "Styling",
+    description: "Responsive layouts, Flexbox, Grid, animations, and custom properties."
   },
   {
-    topic: "JavaScript",
-    takeaway: "JavaScript adds behavior and interaction."
-  }
-];
-
-// -----------------------------------------------------
-// SOCIAL LINKS
-// -----------------------------------------------------
-
-const socials = [
-  {
-    name: "GitHub",
-    url: "https://github.com/MimictoMastery",
-    icon: "fa-github"
+    name: "JavaScript",
+    category: "Programming",
+    description: "DOM manipulation, events, arrays, objects, functions, and Fetch."
   },
   {
-    name: "LinkedIn",
-    url: "https://www.linkedin.com/in/heather-lawson-dev/",
-    icon: "fa-linkedin"
+    name: "Node.js",
+    category: "Backend",
+    description: "Running JavaScript outside the browser."
   },
   {
-    name: "YouTube",
-    url: "https://www.youtube.com/@mimictomastery",
-    icon: "fa-youtube"
+    name: "Express",
+    category: "Backend",
+    description: "Building server routes and handling HTTP requests."
   },
   {
-    name: "Instagram",
-    url: "https://www.instagram.com/YOUR-HANDLE/",
-    icon: "fa-instagram"
+    name: "SQLite",
+    category: "Database",
+    description: "Relational databases and SQL queries."
   },
   {
-    name: "Facebook",
-    url: "https://www.facebook.com/MimicToMastery",
-    icon: "fa-facebook"
+    name: "Git & GitHub",
+    category: "Version Control",
+    description: "Tracking changes, managing repositories, and collaborating."
+  },
+  {
+    name: "REST APIs",
+    category: "Development",
+    description: "Working with requests, responses, and JSON data."
   }
 ];
 
-// -----------------------------------------------------
-// BLOG POSTS
-// -----------------------------------------------------
+function renderTechStack() {
+  const techList = document.getElementById("tech-stack-list");
 
-const posts = [
-  {
-    title: "My Journey from Mimicry to Mastery",
-    date: "October 2026",
-    category: "My Story",
-    body: [
-      "Learning to code as an adult means learning new skills one step at a time.",
-      "Every mistake is an opportunity to understand something better. Every commit is proof that I kept going.",
-      "This is where I share my progress, my projects, and the lessons I learn along the way."
-    ]
-  },
-  {
-    title: "Learning to Code with ADHD",
-    date: "October 2026",
-    category: "Learning",
-    body: [
-      "Learning something new can feel overwhelming when there are so many things to remember.",
-      "Breaking a project into smaller steps helps me focus on one idea at a time.",
-      "I do not have to learn everything today. I just have to keep moving forward."
-    ]
-  },
-  {
-    title: "Stories, Appalachia, and Technology",
-    date: "October 2026",
-    category: "Appalachian Roots",
-    body: [
-      "Before I started learning to code, storytelling was already part of my life.",
-      "Storytelling and programming both involve organizing ideas, solving problems, and helping people understand something."
-    ]
-  }
-];
+  if (!techList) return;
 
-// -----------------------------------------------------
-// ROTATING CODE SNIPPETS
-// A different snippet is selected on each page load.
-// -----------------------------------------------------
+  techList.replaceChildren();
 
-const snippets = [
-  {
-    language: "JavaScript",
-    title: "Say hello to JavaScript",
-    description: "Your first step toward making a webpage interactive.",
-    code: 'const name = "Mastery";\nconsole.log("Hello, " + name + "!");',
-    explanation: "const creates a variable that cannot be reassigned. console.log() prints a message to the console."
-  },
-  {
-    language: "JavaScript",
-    title: "Make a decision",
-    description: "Teach your program to choose between two paths.",
-    code: 'const score = 85;\n\nif (score >= 70) {\n  console.log("Level complete!");\n} else {\n  console.log("Try again!");\n}',
-    explanation: "An if statement checks a condition. If the condition is true, the first block runs; otherwise, else runs."
-  },
-  {
-    language: "JavaScript",
-    title: "Repeat an action",
-    description: "Loops help you repeat code without writing it again.",
-    code: 'for (let i = 1; i <= 5; i++) {\n  console.log("Level " + i);\n}',
-    explanation: "A for loop starts at 1, continues while i is at most 5, and increases i after every round."
-  },
-  {
-    language: "JavaScript",
-    title: "Create a function",
-    description: "Bundle reusable instructions into one named action.",
-    code: 'function levelUp(xp) {\n  return xp + 100;\n}\n\nconsole.log(levelUp(50));',
-    explanation: "A function accepts input, performs a task, and can return a result. Here, 50 XP becomes 150 XP."
-  },
-  {
-    language: "JavaScript",
-    title: "Explore an array",
-    description: "Store a collection of items in a single variable.",
-    code: 'const skills = ["HTML", "CSS", "JS"];\n\nskills.forEach(skill => {\n  console.log(skill);\n});',
-    explanation: "An array stores multiple values. forEach() runs a callback once for each item."
-  },
-  {
-    language: "HTML",
-    title: "Build a semantic section",
-    description: "Use meaningful HTML elements to organize content.",
-    code: '<section aria-labelledby="title">\n  <h2 id="title">My Projects</h2>\n  <p>Ideas becoming reality.</p>\n</section>',
-    explanation: "A section groups related content. The heading and aria-labelledby help communicate its purpose."
-  },
-  {
-    language: "CSS",
-    title: "Create a glass panel",
-    description: "A tiny example of the glassmorphism look.",
-    code: '.glass {\n  background: rgba(12, 22, 48, .65);\n  border: 1px solid rgba(255,255,255,.2);\n  backdrop-filter: blur(16px);\n  border-radius: 20px;\n}',
-    explanation: "A translucent background, a subtle border, and backdrop-filter combine to create a frosted-glass appearance."
-  },
-  {
-    language: "JavaScript",
-    title: "Find an element",
-    description: "Connect JavaScript to an element in your HTML.",
-    code: 'const heading = document.querySelector("h1");\n\nif (heading) {\n  heading.textContent = "I am learning!";\n}',
-    explanation: "querySelector() finds the first matching element. The if statement prevents an error if no matching element exists."
-  },
-  {
-    language: "CSS",
-    title: "Add a neon glow",
-    description: "Make an element shine without an image.",
-    code: '.neon {\n  color: #42edff;\n  text-shadow: 0 0 12px #42edff;\n  box-shadow: 0 0 20px rgba(66,237,255,.2);\n}',
-    explanation: "text-shadow adds glow to text. box-shadow adds glow around an element's box."
-  },
-  {
-    language: "JavaScript",
-    title: "Listen for a click",
-    description: "Respond when a visitor interacts with a button.",
-    code: 'const button = document.querySelector("button");\n\nbutton?.addEventListener("click", () => {\n  alert("Quest started!");\n});',
-    explanation: "addEventListener() waits for an event. The optional chaining operator ?. avoids calling the method if button is null."
-  }
-];
+  technologies.forEach(technology => {
+    const item = createElement("article", "technology-item");
 
-let currentSnippetIndex = 0;
-
-function chooseInitialSnippet() {
-  let previousIndex = -1;
-
-  try {
-    previousIndex = Number(
-      localStorage.getItem("mtm-last-snippet")
+    item.append(
+      createElement("span", "technology-category", technology.category),
+      createElement("h3", "technology-name", technology.name),
+      createElement("p", "technology-description", technology.description)
     );
-  } catch (error) {
-    // The snippet still works if browser storage is unavailable.
-  }
 
-  const candidates = snippets
-    .map((snippet, index) => index)
-    .filter(index => index !== previousIndex);
-
-  const pool = candidates.length > 0
-    ? candidates
-    : snippets.map((snippet, index) => index);
-
-  currentSnippetIndex =
-    pool[Math.floor(Math.random() * pool.length)];
-
-  rememberSnippet();
+    techList.appendChild(item);
+  });
 }
 
-function rememberSnippet() {
-  try {
-    localStorage.setItem(
-      "mtm-last-snippet",
-      String(currentSnippetIndex)
-    );
-  } catch (error) {
-    // Storage is optional; random selection still works.
-  }
-}
-
-function renderSnippet() {
-  const snippet = snippets[currentSnippetIndex];
-
-  const language = document.getElementById("snippet-language");
-  const title = document.getElementById("snippet-title");
-  const description = document.getElementById("snippet-description");
-  const code = document.getElementById("snippet-code");
-  const explanation = document.getElementById("snippet-explanation");
-  const counter = document.getElementById("snippet-counter");
-  const feedback = document.getElementById("snippet-feedback");
-
-  if (!language || !title || !description || !code ||
-      !explanation || !counter) {
-    return;
-  }
-
-  language.textContent = snippet.language;
-  title.textContent = snippet.title;
-  description.textContent = snippet.description;
-  code.textContent = snippet.code;
-  explanation.textContent = snippet.explanation;
-
-  counter.textContent =
-    String(currentSnippetIndex + 1).padStart(2, "0") +
-    " / " +
-    String(snippets.length).padStart(2, "0");
-
-  if (feedback) {
-    feedback.textContent = "";
-  }
-}
-
-function nextSnippet() {
-  if (snippets.length < 2) return;
-
-  let nextIndex;
-
-  do {
-    nextIndex = Math.floor(Math.random() * snippets.length);
-  } while (nextIndex === currentSnippetIndex);
-
-  currentSnippetIndex = nextIndex;
-  rememberSnippet();
-  renderSnippet();
-}
-
-async function copySnippet() {
-  const code = document.getElementById("snippet-code");
-  const feedback = document.getElementById("snippet-feedback");
-
-  if (!code || !feedback) return;
-
-  try {
-    await navigator.clipboard.writeText(code.textContent);
-    feedback.textContent = "Code copied! Ready to practice.";
-  } catch (error) {
-    feedback.textContent =
-      "Copy is unavailable here. Select the code and copy it manually.";
-  }
-}
 
 // -----------------------------------------------------
-// QUOTES
-// Uses quotes.json if available, otherwise local quotes.
+// DAILY DOPAMINE
 // -----------------------------------------------------
 
 const fallbackQuotes = [
   {
-    quote: "Every small step is progress. Keep going!",
+    quote: "Every small step is progress. Keep going.",
     author: "Mimic to Mastery"
   },
   {
@@ -443,7 +235,7 @@ async function loadQuotes() {
     const response = await fetch("./quotes.json");
 
     if (!response.ok) {
-      throw new Error("Quotes file unavailable.");
+      throw new Error("Unable to load quotes.");
     }
 
     const quotes = await response.json();
@@ -460,8 +252,7 @@ async function loadQuotes() {
       availableQuotes = quotes;
     }
   } catch (error) {
-    // The built-in quotes keep the section working.
-    console.info("Using built-in inspiration quotes.");
+    console.info("Using built-in quotes instead.");
   }
 
   showRandomQuote();
@@ -469,8 +260,9 @@ async function loadQuotes() {
 
 function showRandomQuote() {
   const quoteElement = document.getElementById("daily-quote");
-  const authorElement = document.getElementById("quote-author");
+  const authorElement = document.getElementById("quote-attribution");
 
+  // This portfolio version may not have a quote section.
   if (!quoteElement || !authorElement) return;
 
   let nextIndex = 0;
@@ -489,168 +281,86 @@ function showRandomQuote() {
   authorElement.textContent = "— " + quote.author;
 }
 
+
 // -----------------------------------------------------
-// SAFE ELEMENT CREATION
+// WHAT I'M LEARNING
 // -----------------------------------------------------
 
-function createElement(tagName, className, text) {
-  const element = document.createElement(tagName);
-
-  if (className) {
-    element.className = className;
+const learningNotes = [
+  {
+    topic: "JavaScript",
+    takeaway: "Understanding how functions, objects, arrays, and events work together."
+  },
+  {
+    topic: "Backend Development",
+    takeaway: "Connecting Express routes to databases and handling server requests."
+  },
+  {
+    topic: "Responsive Design",
+    takeaway: "Building layouts that adapt to different screens and devices."
+  },
+  {
+    topic: "Version Control",
+    takeaway: "Using Git to track changes and manage projects through GitHub."
   }
+];
 
-  if (text !== undefined) {
-    element.textContent = text;
-  }
+function renderLearningNotes() {
+  const notesList = document.getElementById("learning-notes-list");
 
-  return element;
-}
+  if (!notesList) return;
 
-// -----------------------------------------------------
-// RENDER ACTIVITIES
-// -----------------------------------------------------
+  notesList.replaceChildren();
 
-function renderActivities() {
-  const list = document.getElementById("now-list");
-  if (!list) return;
-
-  list.replaceChildren();
-
-  currentActivities.forEach(activity => {
-    list.appendChild(createElement("li", "", activity));
-  });
-}
-
-// -----------------------------------------------------
-// RENDER PROJECTS
-// -----------------------------------------------------
-
-function renderProjects() {
-  const list = document.getElementById("projects-list");
-  if (!list) return;
-
-  list.replaceChildren();
-
-  projects.forEach(project => {
-    const card = createElement("article", "project-card");
+  learningNotes.forEach(note => {
+    const card = createElement("article", "learning-note");
 
     card.append(
-      createElement("h3", "", project.title),
-      createElement("p", "", project.description),
-      createElement("p", "project-status", project.status),
-      createElement("p", "project-tech", "Built with: " + project.technology)
+      createElement("h3", "", note.topic),
+      createElement("p", "", note.takeaway)
     );
 
-    list.appendChild(card);
+    notesList.appendChild(card);
   });
 }
 
-// -----------------------------------------------------
-// GOALS + PROGRESS RING
-// -----------------------------------------------------
-
-function renderGoals() {
-  const list = document.getElementById("goals-list");
-  if (!list) return;
-
-  list.replaceChildren();
-
-  goals.forEach((goal, index) => {
-    const label = createElement("label", "goal-item");
-    const checkbox = createElement("input");
-    const text = createElement("span", "", goal.text);
-
-    checkbox.type = "checkbox";
-    checkbox.checked = goal.completed;
-    checkbox.setAttribute(
-      "aria-label",
-      "Mark goal complete: " + goal.text
-    );
-
-    if (goal.completed) {
-      label.classList.add("is-complete");
-    }
-
-    checkbox.addEventListener("change", () => {
-      goals[index].completed = checkbox.checked;
-
-      label.classList.toggle("is-complete", checkbox.checked);
-
-      saveGoals();
-      updateGoalProgress();
-    });
-
-    label.append(checkbox, text);
-    list.appendChild(label);
-  });
-
-  updateGoalProgress();
-}
-
-function updateGoalProgress() {
-  const ring = document.getElementById("goal-ring");
-  const percentageElement = document.getElementById("goal-percent");
-  const summary = document.getElementById("goal-summary");
-
-  if (!ring || !percentageElement || !summary) return;
-
-  const completed = goals.filter(goal => goal.completed).length;
-  const total = goals.length;
-
-  const percentage = total
-    ? Math.round((completed / total) * 100)
-    : 0;
-
-  percentageElement.textContent = percentage + "%";
-
-  summary.textContent =
-    completed + " of " + total + " goals complete.";
-
-  ring.style.background =
-    "conic-gradient(var(--cyan) " + percentage +
-    "%, #303b5b " + percentage + "%)";
-
-  ring.setAttribute(
-    "aria-label",
-    percentage + " percent of goals completed"
-  );
-}
 
 // -----------------------------------------------------
-// RENDER LESSONS
+// CONTACT AND SOCIAL LINKS
 // -----------------------------------------------------
 
-function renderLessons() {
-  const list = document.getElementById("lessons-list");
-  if (!list) return;
-
-  list.replaceChildren();
-
-  lessons.forEach(lesson => {
-    const card = createElement("article", "lesson-card");
-
-    card.append(
-      createElement("h3", "", lesson.topic),
-      createElement("p", "", lesson.takeaway)
-    );
-
-    list.appendChild(card);
-  });
-}
-
-// -----------------------------------------------------
-// All The Socail Stuff
-// -----------------------------------------------------
+const socialLinks = [
+  {
+    name: "GitHub",
+    url: "https://github.com/MimictoMastery",
+    icon: "fa-github"
+  },
+  {
+    name: "LinkedIn",
+    url: "https://www.linkedin.com/in/heather-lawson-dev/",
+    icon: "fa-linkedin"
+  },
+  {
+    name: "YouTube",
+    url: "https://www.youtube.com/@mimictomastery",
+    icon: "fa-youtube"
+  },
+  {
+    name: "Facebook",
+    url: "https://www.facebook.com/MimicToMastery",
+    icon: "fa-facebook"
+  }
+];
 
 function renderSocialLinks() {
-  const list = document.getElementById("social-links");
-  if (!list) return;
+  const socialList = document.getElementById("social-link-list");
 
-  list.replaceChildren();
+  if (!socialList) return;
 
-  socials.forEach(social => {
-    const link = createElement("a", "social-link");
+  socialList.replaceChildren();
+
+  socialLinks.forEach(social => {
+    const link = createElement("a", "social-link-card");
     const icon = createElement("i", "fa-brands " + social.icon);
 
     icon.setAttribute("aria-hidden", "true");
@@ -658,32 +368,184 @@ function renderSocialLinks() {
     link.href = social.url;
     link.target = "_blank";
     link.rel = "noopener noreferrer";
+
     link.append(icon, " " + social.name);
 
-    list.appendChild(link);
+    socialList.appendChild(link);
   });
 }
 
+
 // -----------------------------------------------------
-// HERO TERMINAL (Git Bash style)
+// CODE LAB
 // -----------------------------------------------------
 
-const terminalScript = [
-  { command: "whoami", result: "mimic — learning out loud" },
-  { command: "cat origin.txt", result: "started by copying. kept going until it was mine." },
-  { command: "./mimic --evolve", result: "mimic -> mastery [########] 100%" },
-  { command: "ls ~/", result: "projects/  snippets/  arcade/  blog/" }
+const codeExamples = [
+  {
+    language: "JavaScript",
+    title: "Say hello to JavaScript",
+    summary: "Your first step toward making a webpage interactive.",
+    code: 'const name = "Mastery";\n\nconsole.log("Hello, " + name + "!");',
+    explanation: "const creates a variable that cannot be reassigned. console.log() prints a message to the console."
+  },
+  {
+    language: "JavaScript",
+    title: "Make a decision",
+    summary: "Teach your program to choose between two paths.",
+    code: 'const score = 85;\n\nif (score >= 70) {\n  console.log("Level complete!");\n} else {\n  console.log("Try again!");\n}',
+    explanation: "An if statement checks whether a condition is true. If it is, the first block runs. Otherwise, else runs."
+  },
+  {
+    language: "JavaScript",
+    title: "Repeat an action",
+    summary: "Loops let you repeat instructions without writing them again.",
+    code: 'for (let i = 1; i <= 5; i++) {\n  console.log("Level " + i);\n}',
+    explanation: "This for loop starts at 1, repeats while i is less than or equal to 5, and adds 1 after each round."
+  },
+  {
+    language: "JavaScript",
+    title: "Create a function",
+    summary: "Bundle reusable instructions into one named action.",
+    code: 'function levelUp(xp) {\n  return xp + 100;\n}\n\nconsole.log(levelUp(50));',
+    explanation: "A function accepts information, performs a task, and can return a result. Here, 50 XP becomes 150 XP."
+  },
+  {
+    language: "JavaScript",
+    title: "Explore an array",
+    summary: "Store multiple values inside one variable.",
+    code: 'const skills = ["HTML", "CSS", "JavaScript"];\n\nskills.forEach(skill => {\n  console.log(skill);\n});',
+    explanation: "An array stores a collection of values. forEach() runs a function once for every item."
+  },
+  {
+    language: "HTML",
+    title: "Build a semantic section",
+    summary: "Give your webpage meaningful structure.",
+    code: '<section aria-labelledby="projects-title">\n  <h2 id="projects-title">My Projects</h2>\n  <p>Ideas becoming reality.</p>\n</section>',
+    explanation: "A section groups related content. Semantic HTML helps browsers and assistive technologies understand the page."
+  },
+  {
+    language: "CSS",
+    title: "Create a glass panel",
+    summary: "A little glassmorphism for your next project.",
+    code: '.glass-panel {\n  background: rgba(12, 22, 48, .65);\n  border: 1px solid rgba(255,255,255,.2);\n  backdrop-filter: blur(16px);\n  border-radius: 20px;\n}',
+    explanation: "A transparent background, subtle border, and backdrop-filter create the frosted-glass effect."
+  },
+  {
+    language: "JavaScript",
+    title: "Find an element",
+    summary: "Connect JavaScript to your HTML.",
+    code: 'const heading = document.querySelector("h1");\n\nif (heading) {\n  heading.textContent = "I am learning!";\n}',
+    explanation: "querySelector() finds an element. The if statement checks that the element exists before changing it."
+  },
+  {
+    language: "CSS",
+    title: "Add a neon glow",
+    summary: "Make an element shine without an image.",
+    code: '.neon-text {\n  color: #42edff;\n  text-shadow: 0 0 12px #42edff;\n}',
+    explanation: "text-shadow adds a glowing effect around text. Adjust the blur and color to change the effect."
+  },
+  {
+    language: "JavaScript",
+    title: "Listen for a click",
+    summary: "Make something happen when a visitor clicks a button.",
+    code: 'const button = document.querySelector("button");\n\nbutton?.addEventListener("click", () => {\n  alert("Quest started!");\n});',
+    explanation: "addEventListener() waits for an event. Optional chaining prevents an error if the button does not exist."
+  }
+];
+
+let currentCodeIndex = 0;
+
+function renderCodeExample() {
+  const example = codeExamples[currentCodeIndex];
+
+  const language = document.getElementById("code-language-label");
+  const title = document.getElementById("code-example-title");
+  const summary = document.getElementById("code-example-summary");
+  const source = document.getElementById("code-example-source");
+  const explanation = document.getElementById("code-explanation");
+  const counter = document.getElementById("code-example-counter");
+  const feedback = document.getElementById("code-example-feedback");
+
+  if (
+    !language ||
+    !title ||
+    !summary ||
+    !source ||
+    !explanation ||
+    !counter
+  ) {
+    return;
+  }
+
+  language.textContent = example.language;
+  title.textContent = example.title;
+  summary.textContent = example.summary;
+  source.textContent = example.code;
+  explanation.textContent = example.explanation;
+
+  counter.textContent =
+    String(currentCodeIndex + 1).padStart(2, "0") +
+    " / " +
+    String(codeExamples.length).padStart(2, "0");
+
+  if (feedback) {
+    feedback.textContent = "";
+  }
+}
+
+function nextCodeExample() {
+  currentCodeIndex = (currentCodeIndex + 1) % codeExamples.length;
+  renderCodeExample();
+}
+
+async function copyCodeExample() {
+  const source = document.getElementById("code-example-source");
+  const feedback = document.getElementById("code-example-feedback");
+
+  if (!source || !feedback) return;
+
+  try {
+    await navigator.clipboard.writeText(source.textContent);
+    feedback.textContent = "Code copied! Ready to experiment.";
+  } catch (error) {
+    feedback.textContent =
+      "Copy unavailable. Select the code and copy it manually.";
+  }
+}
+
+
+// -----------------------------------------------------
+// INTRO TERMINAL
+// -----------------------------------------------------
+
+const terminalCommands = [
+  {
+    command: "whoami",
+    result: "mimic — learning out loud"
+  },
+  {
+    command: "cat origin.txt",
+    result: "started by copying. kept going until it was mine."
+  },
+  {
+    command: "./mimic --evolve",
+    result: "mimic -> mastery [########] 100%"
+  },
+  {
+    command: "ls ~/",
+    result: "projects/  snippets/  arcade/  journal/"
+  }
 ];
 
 const prefersReducedMotion = window.matchMedia(
   "(prefers-reduced-motion: reduce)"
 ).matches;
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+function sleep(milliseconds) {
+  return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
 
-async function typeText(element, text, speed = 45) {
+async function typeText(element, text, speed = 35) {
   if (prefersReducedMotion) {
     element.textContent = text;
     return;
@@ -695,11 +557,11 @@ async function typeText(element, text, speed = 45) {
   }
 }
 
-function buildPrompt(user) {
+function buildTerminalPrompt() {
   const prompt = createElement("div", "gb-prompt");
 
   prompt.append(
-    createElement("span", "gb-user", user + "@MASTERY"),
+    createElement("span", "gb-user", "mimic@MASTERY"),
     " ",
     createElement("span", "gb-shell", "MINGW64"),
     " ",
@@ -717,112 +579,175 @@ async function runTerminal() {
   if (!output || !live || !finalMessage) return;
 
   output.replaceChildren();
+  live.hidden = true;
 
-  for (const step of terminalScript) {
-    output.appendChild(buildPrompt("mimic"));
+  for (const step of terminalCommands) {
+    output.appendChild(buildTerminalPrompt());
 
     const line = createElement("div", "gb-line");
     const command = createElement("span");
     const cursor = createElement("span", "cursor");
 
-    line.append(createElement("span", "gb-dollar", "$"), " ", command, cursor);
+    line.append(
+      createElement("span", "gb-dollar", "$"),
+      " ",
+      command,
+      cursor
+    );
+
     output.appendChild(line);
 
     await typeText(command, step.command);
-    await sleep(prefersReducedMotion ? 0 : 350);
+    await sleep(prefersReducedMotion ? 0 : 300);
+
     cursor.remove();
 
-    output.appendChild(createElement("div", "terminal-result", step.result));
-    await sleep(prefersReducedMotion ? 0 : 500);
+    output.appendChild(
+      createElement("div", "terminal-result", step.result)
+    );
+
+    await sleep(prefersReducedMotion ? 0 : 400);
   }
 
   live.hidden = false;
-  await typeText(finalMessage, "building something meaningful...");
+
+  await typeText(
+    finalMessage,
+    "building something meaningful..."
+  );
 }
 
+
 // -----------------------------------------------------
-// FRONT PAGE FADE
-// The front page starts solid. As you scroll, it fades into
-// the background while the main sections become solid.
+// INTRO FADE ON SCROLL
 // -----------------------------------------------------
 
-function initFrontPageFade() {
-  const intro = document.querySelector(".intro");
-  const root = document.documentElement;
+function initIntroFade() {
+  const intro = document.querySelector(".intro-section");
 
   if (!intro || prefersReducedMotion) return;
+
+  const root = document.documentElement;
 
   root.classList.add("fx-on");
 
   let waiting = false;
 
-  function update() {
+  function updateFade() {
     waiting = false;
 
     const distance = window.innerHeight * 0.6;
-    const fade = Math.min(Math.max(window.scrollY / distance, 0), 1);
-    const reveal = Math.min(Math.max((fade - 0.2) / 0.8, 0), 1);
-    const gone = fade >= 1;
+
+    const fade = Math.min(
+      Math.max(window.scrollY / distance, 0),
+      1
+    );
+
+    const reveal = Math.min(
+      Math.max((fade - 0.2) / 0.8, 0),
+      1
+    );
 
     root.style.setProperty("--fade", fade.toFixed(3));
     root.style.setProperty("--reveal", reveal.toFixed(3));
 
-    intro.classList.toggle("is-faded", gone);
-    intro.toggleAttribute("inert", gone);
+    const introHasFaded = fade >= 1;
+
+    intro.classList.toggle("is-faded", introHasFaded);
+    intro.toggleAttribute("inert", introHasFaded);
   }
 
-  function requestUpdate() {
+  function requestFadeUpdate() {
     if (waiting) return;
 
     waiting = true;
-    requestAnimationFrame(update);
+    requestAnimationFrame(updateFade);
   }
 
-  window.addEventListener("scroll", requestUpdate, { passive: true });
-  window.addEventListener("resize", requestUpdate);
+  window.addEventListener("scroll", requestFadeUpdate, {
+    passive: true
+  });
 
-  update();
+  window.addEventListener("resize", requestFadeUpdate);
+
+  updateFade();
 }
 
+
 // -----------------------------------------------------
-// BLOG
+// FIELD JOURNAL
 // -----------------------------------------------------
 
-function renderPosts() {
-  const list = document.getElementById("posts-list");
-  if (!list) return;
+const journalPosts = [
+  {
+    title: "My Journey from Mimicry to Mastery",
+    date: "November 2026",
+    category: "My Story",
+    body: [
+      "Learning to code as an adult means learning new skills one step at a time.",
+      "Every mistake is an opportunity to understand something better. Every commit is proof that I kept going.",
+      "This is where I share my progress, my projects, and the lessons I learn along the way."
+    ]
+  },
+  {
+    title: "Learning to Code with ADHD",
+    date: "November 2026",
+    category: "Learning",
+    body: [
+      "Learning something new can feel overwhelming when there are so many things to remember.",
+      "Breaking a project into smaller steps helps me focus on one idea at a time.",
+      "I do not have to learn everything today. I just have to keep moving forward."
+    ]
+  },
+  {
+    title: "Stories, Appalachia, and Technology",
+    date: "November 2026",
+    category: "Appalachian Roots",
+    body: [
+      "Before I started learning to code, storytelling was already part of my life.",
+      "Storytelling and programming both involve organizing ideas, solving problems, and helping people understand something.",
+      "Different tools, different ways of creating, but the same curiosity."
+    ]
+  }
+];
 
-  list.replaceChildren();
+function renderJournalPosts() {
+  const postList = document.getElementById("journal-post-list");
 
-  posts.forEach((post, index) => {
-    const button = createElement("button", "post-card");
+  if (!postList) return;
+
+  postList.replaceChildren();
+
+  journalPosts.forEach((post, index) => {
+    const button = createElement("button", "journal-post-card");
+
     button.type = "button";
 
-    const title = createElement("h3", "", post.title);
-    const meta = createElement(
-      "p",
-      "meta",
-      post.date + " · " + post.category
+    button.append(
+      createElement("span", "post-category", post.category),
+      createElement("h3", "", post.title),
+      createElement("span", "post-metadata", post.date),
+      createElement("span", "journal-read-cue", "Read entry →")
     );
 
-    button.append(title, meta);
+    button.addEventListener("click", () => {
+      openJournalPost(index);
+    });
 
-    button.addEventListener("click", () => openPost(index));
-
-    list.appendChild(button);
+    postList.appendChild(button);
   });
 }
 
-function openPost(index) {
-  const post = posts[index];
+function openJournalPost(index) {
+  const post = journalPosts[index];
 
   if (!post) return;
 
-  const reader = document.getElementById("blog-reader");
-  const meta = document.getElementById("reader-meta");
-  const title = document.getElementById("reader-title");
-  const body = document.getElementById("reader-body");
-  const backButton = document.getElementById("back-button");
+  const reader = document.getElementById("journal-reader");
+  const meta = document.getElementById("journal-reader-meta");
+  const title = document.getElementById("journal-reader-title");
+  const body = document.getElementById("journal-reader-body");
+  const backButton = document.getElementById("journal-back-button");
 
   if (!reader || !meta || !title || !body) return;
 
@@ -835,75 +760,101 @@ function openPost(index) {
     body.appendChild(createElement("p", "", paragraph));
   });
 
-  reader.classList.remove("hidden");
-  reader.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  reader.classList.remove("is-hidden");
 
-  if (backButton) backButton.focus({ preventScroll: true });
-}
+  reader.scrollIntoView({
+    behavior: prefersReducedMotion ? "auto" : "smooth",
+    block: "nearest"
+  });
 
-function closePost() {
-  const reader = document.getElementById("blog-reader");
-
-  if (reader) {
-    reader.classList.add("hidden");
+  if (backButton) {
+    backButton.focus({ preventScroll: true });
   }
 }
 
+function closeJournalPost() {
+  const reader = document.getElementById("journal-reader");
+
+  if (reader) {
+    reader.classList.add("is-hidden");
+  }
+}
+
+
 // -----------------------------------------------------
-// CODE QUEST ARCADE CONNECTION
+// CODE QUEST ARCADE
 // -----------------------------------------------------
 
 function configureArcade() {
-  const launch = document.getElementById("arcade-launch");
-  const note = document.getElementById("arcade-note");
+  const launchLink = document.getElementById("arcade-launch-link");
+  const caption = document.getElementById("arcade-caption");
 
-  if (!launch || !note) return;
+  if (!launchLink || !caption) return;
 
-  launch.href = SITE_CONFIG.arcade;
-  note.textContent = "Built with JavaScript, Express, and SQLite.";
+  launchLink.href = SITE_CONFIG.arcade;
+
+  caption.textContent =
+    "A JavaScript game project built with Node.js, Express, and SQLite.";
 }
 
+
 // -----------------------------------------------------
-// STARTUP
+// START THE PORTFOLIO
 // -----------------------------------------------------
 
 function init() {
-  renderActivities();
+  initBlueprint();
+
   renderProjects();
-  renderGoals();
-  renderLessons();
+  renderTechStack();
+  renderLearningNotes();
   renderSocialLinks();
-  renderPosts();
-  runTerminal();
-  initFrontPageFade();
+  renderJournalPosts();
 
-  chooseInitialSnippet();
-  renderSnippet();
-
-  configureArcade();
   loadQuotes();
 
-  const nextButton = document.getElementById("next-snippet-button");
-  const copyButton = document.getElementById("copy-snippet-button");
-  const quoteButton = document.getElementById("new-quote-button");
-  const backButton = document.getElementById("back-button");
+  renderCodeExample();
 
-  if (nextButton) {
-    nextButton.addEventListener("click", nextSnippet);
+  runTerminal();
+  initIntroFade();
+
+  configureArcade();
+
+  const nextQuoteButton = document.getElementById(
+    "next-daily-quote-button"
+  );
+
+  const nextCodeButton = document.getElementById(
+    "next-code-example-button"
+  );
+
+  const copyCodeButton = document.getElementById(
+    "copy-code-example-button"
+  );
+
+  const backButton = document.getElementById(
+    "journal-back-button"
+  );
+
+  if (nextQuoteButton) {
+    nextQuoteButton.addEventListener("click", showRandomQuote);
   }
 
-  if (copyButton) {
-    copyButton.addEventListener("click", copySnippet);
+  if (nextCodeButton) {
+    nextCodeButton.addEventListener("click", nextCodeExample);
   }
 
-  if (quoteButton) {
-    quoteButton.addEventListener("click", showRandomQuote);
+  if (copyCodeButton) {
+    copyCodeButton.addEventListener("click", copyCodeExample);
   }
 
   if (backButton) {
-    backButton.addEventListener("click", closePost);
+    backButton.addEventListener("click", closeJournalPost);
   }
 }
+
+
+// Wait until the HTML is ready before connecting the JavaScript.
 
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", init);
