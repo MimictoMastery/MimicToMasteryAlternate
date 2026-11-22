@@ -1,4 +1,3 @@
-
 // =====================================================
 // MIMIC TO MASTERY
 // The JavaScript that brings the portfolio to life.
@@ -39,11 +38,6 @@ function initBlueprint() {
 
   if (!trigger || !message) return;
 
-  const label = trigger.querySelector("span");
-  if (label) {
-    label.setAttribute("data-text", "BEYOND THE BLUEPRINT");
-  }
-
   let blueprintTimer;
 
   function showMessage() {
@@ -68,6 +62,9 @@ function initBlueprint() {
   trigger.addEventListener("focus", showMessage);
   trigger.addEventListener("click", showMessage);
 
+  trigger.addEventListener("mouseleave", hideMessage);
+  trigger.addEventListener("blur", hideMessage);
+
   trigger.addEventListener("keydown", event => {
     if (event.key === "Escape") {
       hideMessage();
@@ -84,9 +81,11 @@ const projects = [
   {
     title: "Code Quest Arcade",
     description:
-      "A retro-inspired JavaScript trivia game. Players answer coding questions, earn points, and compete for a place on the high-score list.",
-    status: "Interactive Full-Stack Project",
-    technology: "JavaScript · Node.js · Express · SQLite"
+      "A retro-inspired JavaScript trivia game with coding questions and a high-score table.",
+    status: "Interactive Project",
+    technology: "JavaScript · Node.js · Express · SQLite",
+    demonstrates:
+      "JavaScript logic, DOM manipulation, database operations, and front-end/back-end communication."
   },
   {
     title: "Mimic to Mastery",
@@ -115,18 +114,28 @@ function renderProjects() {
     const card = createElement("article", "project-card");
 
     const title = createElement("h3", "", project.title);
-    const description = createElement("p", "", project.description);
     const status = createElement("span", "project-status", project.status);
+    const description = createElement("p", "", project.description);
     const technologies = createElement("div", "project-technologies");
 
-    // Turn the technology list into individual labels.
     project.technology.split(" · ").forEach(item => {
       technologies.appendChild(
         createElement("span", "technology-tag", item)
       );
     });
 
-    card.append(title, description, status, technologies);
+    card.append(title, status, description, technologies);
+
+    if (project.demonstrates) {
+      const demonstration = createElement(
+        "p",
+        "project-demonstrates",
+        "What it demonstrates: " + project.demonstrates
+      );
+
+      card.appendChild(demonstration);
+    }
+
     projectList.appendChild(card);
   });
 }
@@ -138,44 +147,37 @@ function renderProjects() {
 
 const technologies = [
   {
-    name: "HTML5",
-    category: "Structure",
-    description: "Semantic HTML and accessible page structure."
+    category: "FRONTEND",
+    items: [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Responsive Design"
+    ]
   },
   {
-    name: "CSS3",
-    category: "Styling",
-    description: "Responsive layouts, Flexbox, Grid, animations, and custom properties."
+    category: "BACKEND",
+    items: [
+      "Node.js",
+      "Express",
+      "REST APIs"
+    ]
   },
   {
-    name: "JavaScript",
-    category: "Programming",
-    description: "DOM manipulation, events, arrays, objects, functions, and Fetch."
+    category: "DATABASES",
+    items: [
+      "SQL",
+      "SQLite"
+    ]
   },
   {
-    name: "Node.js",
-    category: "Backend",
-    description: "Running JavaScript outside the browser."
-  },
-  {
-    name: "Express",
-    category: "Backend",
-    description: "Building server routes and handling HTTP requests."
-  },
-  {
-    name: "SQLite",
-    category: "Database",
-    description: "Relational databases and SQL queries."
-  },
-  {
-    name: "Git & GitHub",
-    category: "Version Control",
-    description: "Tracking changes, managing repositories, and collaborating."
-  },
-  {
-    name: "REST APIs",
-    category: "Development",
-    description: "Working with requests, responses, and JSON data."
+    category: "TOOLS",
+    items: [
+      "Git",
+      "GitHub",
+      "VS Code",
+      "npm"
+    ]
   }
 ];
 
@@ -186,15 +188,24 @@ function renderTechStack() {
 
   techList.replaceChildren();
 
-  technologies.forEach(technology => {
+  technologies.forEach(group => {
     const item = createElement("article", "technology-item");
 
-    item.append(
-      createElement("span", "technology-category", technology.category),
-      createElement("h3", "technology-name", technology.name),
-      createElement("p", "technology-description", technology.description)
+    const category = createElement(
+      "span",
+      "technology-category",
+      group.category
     );
 
+    const names = createElement("div", "technology-tags");
+
+    group.items.forEach(technology => {
+      names.appendChild(
+        createElement("span", "technology-name", technology)
+      );
+    });
+
+    item.append(category, names);
     techList.appendChild(item);
   });
 }
@@ -202,6 +213,7 @@ function renderTechStack() {
 
 // -----------------------------------------------------
 // DAILY DOPAMINE
+// Kept available in case the quote section returns.
 // -----------------------------------------------------
 
 const fallbackQuotes = [
@@ -262,7 +274,6 @@ function showRandomQuote() {
   const quoteElement = document.getElementById("daily-quote");
   const authorElement = document.getElementById("quote-attribution");
 
-  // This portfolio version may not have a quote section.
   if (!quoteElement || !authorElement) return;
 
   let nextIndex = 0;
@@ -284,6 +295,7 @@ function showRandomQuote() {
 
 // -----------------------------------------------------
 // WHAT I'M LEARNING
+// Kept available if you decide to add this section later.
 // -----------------------------------------------------
 
 const learningNotes = [
@@ -545,7 +557,7 @@ function sleep(milliseconds) {
   return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
 
-async function typeText(element, text, speed = 35) {
+async function typeText(element, text, speed = 45) {
   if (prefersReducedMotion) {
     element.textContent = text;
     return;
@@ -598,7 +610,8 @@ async function runTerminal() {
     output.appendChild(line);
 
     await typeText(command, step.command);
-    await sleep(prefersReducedMotion ? 0 : 300);
+
+    await sleep(prefersReducedMotion ? 0 : 500);
 
     cursor.remove();
 
@@ -606,7 +619,7 @@ async function runTerminal() {
       createElement("div", "terminal-result", step.result)
     );
 
-    await sleep(prefersReducedMotion ? 0 : 400);
+    await sleep(prefersReducedMotion ? 0 : 650);
   }
 
   live.hidden = false;
@@ -636,7 +649,9 @@ function initIntroFade() {
   function updateFade() {
     waiting = false;
 
-    const distance = window.innerHeight * 0.6;
+    // A longer scroll distance gives visitors more time
+    // to see the terminal before the portfolio appears.
+    const distance = window.innerHeight * 1.25;
 
     const fade = Math.min(
       Math.max(window.scrollY / distance, 0),
@@ -644,7 +659,7 @@ function initIntroFade() {
     );
 
     const reveal = Math.min(
-      Math.max((fade - 0.2) / 0.8, 0),
+      Math.max((fade - 0.25) / 0.75, 0),
       1
     );
 
