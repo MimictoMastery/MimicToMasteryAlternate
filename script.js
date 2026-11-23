@@ -94,12 +94,13 @@ const projects = [
     status: "Portfolio Project",
     technology: "HTML · CSS · JavaScript"
   },
-  {
+    {
     title: "ADHD Flip Cards",
     description:
       "An interactive card-based learning project designed to present information in smaller, easier-to-explore pieces.",
     status: "Learning Project",
-    technology: "HTML · CSS · JavaScript"
+    technology: "HTML · CSS · JavaScript",
+    liveUrl: "https://mimictomastery.github.io/ADHD_FlipCards/"
   }
 ];
 
@@ -135,7 +136,15 @@ function renderProjects() {
 
       card.appendChild(demonstration);
     }
+    if (project.liveUrl) {
+      const liveLink = createElement("a", "project-link", "View Live Demo →");
 
+      liveLink.href = project.liveUrl;
+      liveLink.target = "_blank";
+      liveLink.rel = "noopener noreferrer";
+
+      card.appendChild(liveLink);
+    }
     projectList.appendChild(card);
   });
 }
