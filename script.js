@@ -87,6 +87,7 @@ const projects = [
     demonstrates:
       "JavaScript logic, DOM manipulation, database operations, and front-end/back-end communication."
   },
+   
   {
     title: "Mimic to Mastery",
     description:
@@ -101,6 +102,17 @@ const projects = [
     status: "Learning Project",
     technology: "HTML · CSS · JavaScript",
     liveUrl: "https://mimictomastery.github.io/ADHD_FlipCards/"
+  }, 
+
+  {
+    title: "Summer Chores",
+    description:
+      "Five summer chores run in order, and any one can fail when the worker falls asleep. The same logic is written three ways, with callbacks, Promises, and async/await, plus a browser interface to run each one.",
+    status: "Learning Project",
+    technology: "JavaScript · Node.js · HTML · CSS",
+    demonstrates:
+      "Asynchronous JavaScript, error handling, and building a user interface on top of existing logic.",
+    liveUrl: "https://mimictomastery.github.io/summer-chores/"
   }
 ];
 
@@ -397,6 +409,7 @@ function renderSocialLinks() {
 }
 
 
+
 // -----------------------------------------------------
 // CODE LAB
 // -----------------------------------------------------
@@ -404,10 +417,21 @@ function renderSocialLinks() {
 const codeExamples = [
   {
     language: "JavaScript",
-    title: "Say hello to JavaScript",
-    summary: "Your first step toward making a webpage interactive.",
-    code: 'const name = "Mastery";\n\nconsole.log("Hello, " + name + "!");',
-    explanation: "const creates a variable that cannot be reassigned. console.log() prints a message to the console."
+    title: "Collect Wood: Understanding Promises",
+    summary: "Learn how JavaScript handles asynchronous tasks using Promises, setTimeout(), resolve(), and reject(). This function randomly determines whether someone successfully collects wood or falls asleep after a 2.5-second delay.",
+    code: `function collectWood(name) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (Math.random() > 0.6) {
+        console.log(\`\${name} finished collecting wood.\`);
+        resolve();
+      } else {
+        reject(\`\${name} fell asleep after collecting wood.\`);
+      }
+    }, 2500);
+  });
+}`,
+    explanation: "A Promise represents a task that may finish successfully or fail in the future. setTimeout() delays the task by 2.5 seconds. Math.random() determines the outcome. resolve() signals success, while reject() signals failure. The function returns a Promise that can be handled with .then() and .catch()."
   },
   {
     language: "JavaScript",
@@ -473,6 +497,7 @@ const codeExamples = [
     explanation: "addEventListener() waits for an event. Optional chaining prevents an error if the button does not exist."
   }
 ];
+
 
 let currentCodeIndex = 0;
 
